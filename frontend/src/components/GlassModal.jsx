@@ -18,15 +18,15 @@ const GlassModal = ({ isOpen, onClose, title, children }) => {
       
       {/* Modal */}
       <div className="relative w-full max-w-md">
-        <div className="backdrop-blur-md bg-white/10 border border-white/20 rounded-2xl p-6 shadow-2xl">
+        <div className="backdrop-blur-md bg-white/10 border border-white/20 rounded-2xl p-4 sm:p-6 shadow-2xl max-h-[90vh] overflow-y-auto">
           {/* Header */}
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="text-xl font-semibold text-white">{title}</h2>
+          <div className="flex items-center justify-between mb-4 sm:mb-6">
+            <h2 className="text-lg sm:text-xl font-semibold text-white">{title}</h2>
             <button
               onClick={onClose}
               className="p-2 rounded-lg backdrop-blur-sm bg-white/10 border border-white/20 hover:bg-white/20 transition-all duration-200 text-white/70 hover:text-white"
             >
-              <IoClose className="w-5 h-5" />
+              <IoClose className="w-4 h-4 sm:w-5 sm:h-5" />
             </button>
           </div>
           

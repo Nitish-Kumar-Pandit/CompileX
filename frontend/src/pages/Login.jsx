@@ -67,13 +67,13 @@ const Login = () => {
 
         {/* Login Container */}
         <div className="flex flex-col items-center justify-center min-h-screen relative z-10 p-4">
-          <form onSubmit={submitForm} className='w-full max-w-md backdrop-blur-md bg-white/5 border border-white/10 rounded-2xl p-8 shadow-2xl'>
+          <form onSubmit={submitForm} className='w-full max-w-md backdrop-blur-md bg-white/5 border border-white/10 rounded-2xl p-6 sm:p-8 shadow-2xl'>
 
             {/* Logo */}
-            <div className="text-center mb-8">
-              <CompileXLogo className="w-48 h-12 mx-auto mb-4" />
-              <h1 className="text-2xl font-bold text-white mb-2">Welcome Back</h1>
-              <p className="text-white/60">Sign in to your CompileX account</p>
+            <div className="text-center mb-6 sm:mb-8">
+              <CompileXLogo className="w-40 h-10 sm:w-48 sm:h-12 mx-auto mb-4" />
+              <h1 className="text-xl sm:text-2xl font-bold text-white mb-2">Welcome Back</h1>
+              <p className="text-white/60 text-sm sm:text-base">Sign in to your CompileX account</p>
             </div>
 
             {/* Email Input */}

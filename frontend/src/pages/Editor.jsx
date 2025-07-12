@@ -163,32 +163,33 @@ const Editor = () => {
         <Navbar />
 
         {/* Main Editor Container */}
-        <div className="pt-20 page-transition">
-          <div className="flex h-[calc(100vh-80px)] gap-4 p-4">
+        <div className="pt-16 sm:pt-20 page-transition">
+          <div className="flex flex-col lg:flex-row h-[calc(100vh-64px)] sm:h-[calc(100vh-80px)] gap-2 sm:gap-4 p-2 sm:p-4">
 
             {/* Code Editor Section */}
-            <div className="w-1/2 backdrop-blur-md bg-white/5 border border-white/10 rounded-xl overflow-hidden">
-              <div className="flex items-center justify-between p-4 border-b border-white/10">
-                <div className="flex items-center gap-3">
-                  <div className="flex items-center justify-center w-8 h-8 rounded-lg backdrop-blur-sm bg-white/10 border border-white/20">
-                    <span className="text-white/90 text-sm font-mono font-bold">&lt;&gt;</span>
+            <div className="w-full lg:w-1/2 h-1/2 lg:h-full backdrop-blur-md bg-white/5 border border-white/10 rounded-xl overflow-hidden">
+              <div className="flex items-center justify-between p-2 sm:p-4 border-b border-white/10">
+                <div className="flex items-center gap-2 sm:gap-3 min-w-0 flex-1">
+                  <div className="flex items-center justify-center w-6 h-6 sm:w-8 sm:h-8 rounded-lg backdrop-blur-sm bg-white/10 border border-white/20 flex-shrink-0">
+                    <span className="text-white/90 text-xs sm:text-sm font-mono font-bold">&lt;&gt;</span>
                   </div>
-                  <h2 className="text-lg font-semibold text-white">
+                  <h2 className="text-sm sm:text-lg font-semibold text-white truncate">
                     {data?.name || 'Untitled Project'}
                   </h2>
-                  <span className="px-2 py-1 text-xs bg-blue-500/20 text-blue-300 rounded-full border border-blue-500/30">
+                  <span className="px-1.5 sm:px-2 py-0.5 sm:py-1 text-xs bg-blue-500/20 text-blue-300 rounded-full border border-blue-500/30 flex-shrink-0">
                     {data?.projLanguage || 'python'}
                   </span>
                 </div>
                 <button
                   onClick={saveProject}
-                  className="flex items-center gap-2 px-4 py-2 backdrop-blur-sm bg-green-500/20 border border-green-500/30 hover:bg-green-500/30 text-green-300 rounded-lg transition-all duration-200"
+                  className="flex items-center gap-1 sm:gap-2 px-2 sm:px-4 py-2 backdrop-blur-sm bg-green-500/20 border border-green-500/30 hover:bg-green-500/30 text-green-300 rounded-lg transition-all duration-200 text-xs sm:text-sm flex-shrink-0"
                 >
-                  <IoSave className="w-4 h-4" />
-                  Save (Ctrl+S)
+                  <IoSave className="w-3 h-3 sm:w-4 sm:h-4" />
+                  <span className="hidden sm:inline">Save (Ctrl+S)</span>
+                  <span className="sm:hidden">Save</span>
                 </button>
               </div>
-              <div className="h-[calc(100%-60px)]">
+              <div className="h-[calc(100%-48px)] sm:h-[calc(100%-60px)]">
                 <Editor2
                   onChange={handleCodeChange}
                   theme="vs-dark"
@@ -231,24 +232,25 @@ const Editor = () => {
             </div>
 
             {/* Output Section */}
-            <div className="w-1/2 backdrop-blur-md bg-white/5 border border-white/10 rounded-xl overflow-hidden">
-              <div className="flex items-center justify-between p-4 border-b border-white/10">
-                <h2 className="text-lg font-semibold text-white">Output</h2>
+            <div className="w-full lg:w-1/2 h-1/2 lg:h-full backdrop-blur-md bg-white/5 border border-white/10 rounded-xl overflow-hidden">
+              <div className="flex items-center justify-between p-2 sm:p-4 border-b border-white/10">
+                <h2 className="text-sm sm:text-lg font-semibold text-white">Output</h2>
                 <button
                   onClick={runProject}
-                  className="flex items-center gap-2 px-4 py-2 backdrop-blur-sm bg-blue-500/20 border border-blue-500/30 hover:bg-blue-500/30 text-blue-300 rounded-lg transition-all duration-200"
+                  className="flex items-center gap-1 sm:gap-2 px-2 sm:px-4 py-2 backdrop-blur-sm bg-blue-500/20 border border-blue-500/30 hover:bg-blue-500/30 text-blue-300 rounded-lg transition-all duration-200 text-xs sm:text-sm"
                 >
-                  <IoPlay className="w-4 h-4" />
-                  Run Code
+                  <IoPlay className="w-3 h-3 sm:w-4 sm:h-4" />
+                  <span className="hidden sm:inline">Run Code</span>
+                  <span className="sm:hidden">Run</span>
                 </button>
               </div>
-              <div className="h-[calc(100%-60px)] p-4">
+              <div className="h-[calc(100%-48px)] sm:h-[calc(100%-60px)] p-2 sm:p-4">
                 <pre
-                  className={`w-full h-full overflow-auto text-sm font-mono ${
+                  className={`w-full h-full overflow-auto text-xs sm:text-sm font-mono ${
                     error ? "text-red-400" : "text-white/90"
                   } whitespace-pre-wrap`}
                 >
-                  {output || "Click 'Run Code' to see the output..."}
+                  {output || "Click 'Run' to see the output..."}
                 </pre>
               </div>
             </div>

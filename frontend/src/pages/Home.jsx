@@ -214,30 +214,31 @@ const Home = () => {
         <Navbar />
 
         {/* Main Content */}
-        <div className="relative z-10 pt-24 px-6 lg:px-16">
+        <div className="relative z-10 pt-20 sm:pt-24 px-4 sm:px-6 lg:px-16 pb-8 main-content flex-1">
           {/* Header Section */}
-          <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between mb-12">
+          <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between mb-8 sm:mb-12">
             <div className="mb-6 lg:mb-0">
-              <h1 className="text-4xl lg:text-5xl font-bold text-white mb-2">
+              <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-2 leading-tight">
                 🚀 Code. Compile. <span className="bg-gradient-to-r from-blue-400 via-purple-500 to-cyan-400 bg-clip-text text-transparent">Create.</span>
               </h1>
-              <p className="text-white/60 text-lg">Transform your ideas into reality with CompileX - where innovation meets execution.</p>
+              <p className="text-white/60 text-base sm:text-lg">Transform your ideas into reality with CompileX - where innovation meets execution.</p>
             </div>
 
             <button
               onClick={() => setIsCreateModelShow(true)}
-              className="flex items-center gap-3 px-6 py-3 rounded-xl backdrop-blur-md bg-gradient-to-r from-blue-500/20 to-purple-500/20 border border-white/20 hover:from-blue-500/30 hover:to-purple-500/30 transition-all duration-300 text-white font-medium shadow-lg hover:shadow-xl"
+              className="flex items-center gap-3 px-4 sm:px-6 py-3 rounded-xl backdrop-blur-md bg-gradient-to-r from-blue-500/20 to-purple-500/20 border border-white/20 hover:from-blue-500/30 hover:to-purple-500/30 transition-all duration-300 text-white font-medium shadow-lg hover:shadow-xl w-full sm:w-auto justify-center sm:justify-start text-sm sm:text-base"
             >
               <IoAdd className="w-5 h-5" />
-              Create New Project
+              <span className="hidden sm:inline">Create New Project</span>
+              <span className="sm:hidden">New Project</span>
             </button>
           </div>
 
           {/* Projects List */}
-          <div className="mb-16">
+          <div className="mb-8">
 
             {projects && projects.length > 0 ? (
-              <div className="space-y-6 max-w-10xl mx-auto px-4">
+              <div className="space-y-4 sm:space-y-6 max-w-10xl mx-auto">
                 {projects.map((project) => (
                   <ProjectCard
                     key={project._id}
@@ -252,17 +253,18 @@ const Home = () => {
                 ))}
               </div>
             ) : (
-              <div className="text-center py-16">
-                <div className="backdrop-blur-md bg-white/5 border border-white/10 rounded-2xl p-12 max-w-md mx-auto">
-                  <IoCode className="w-16 h-16 text-white/40 mx-auto mb-4" />
-                  <h3 className="text-xl font-semibold text-white mb-2">No Projects Yet</h3>
-                  <p className="text-white/60 mb-6">Start your coding journey by creating your first project!</p>
+              <div className="text-center py-8 sm:py-16">
+                <div className="backdrop-blur-md bg-white/5 border border-white/10 rounded-2xl p-6 sm:p-12 max-w-md mx-auto">
+                  <IoCode className="w-12 h-12 sm:w-16 sm:h-16 text-white/40 mx-auto mb-4" />
+                  <h3 className="text-lg sm:text-xl font-semibold text-white mb-2">No Projects Yet</h3>
+                  <p className="text-white/60 mb-6 text-sm sm:text-base">Start your coding journey by creating your first project!</p>
                   <button
                     onClick={() => setIsCreateModelShow(true)}
-                    className="flex items-center gap-2 px-6 py-3 rounded-xl backdrop-blur-md bg-gradient-to-r from-blue-500/20 to-purple-500/20 border border-white/20 hover:from-blue-500/30 hover:to-purple-500/30 transition-all duration-300 text-white font-medium mx-auto"
+                    className="flex items-center gap-2 px-4 sm:px-6 py-3 rounded-xl backdrop-blur-md bg-gradient-to-r from-blue-500/20 to-purple-500/20 border border-white/20 hover:from-blue-500/30 hover:to-purple-500/30 transition-all duration-300 text-white font-medium mx-auto text-sm sm:text-base"
                   >
                     <IoAdd className="w-5 h-5" />
-                    Create Your First Project
+                    <span className="hidden sm:inline">Create Your First Project</span>
+                    <span className="sm:hidden">Create Project</span>
                   </button>
                 </div>
               </div>

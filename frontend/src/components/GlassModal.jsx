@@ -18,7 +18,7 @@ const GlassModal = ({ isOpen, onClose, title, children }) => {
       
       {/* Modal */}
       <div className="relative w-full max-w-md">
-        <div className="backdrop-blur-md bg-white/10 border border-white/20 rounded-2xl p-4 sm:p-6 shadow-2xl max-h-[90vh] overflow-y-auto">
+        <div className="backdrop-blur-md bg-white/10 border border-white/20 rounded-2xl p-4 sm:p-6 shadow-2xl max-h-[90vh] overflow-visible">
           {/* Header */}
           <div className="flex items-center justify-between mb-4 sm:mb-6">
             <h2 className="text-lg sm:text-xl font-semibold text-white">{title}</h2>

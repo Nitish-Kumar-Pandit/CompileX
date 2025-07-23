@@ -44,6 +44,17 @@ const Editor = () => {
       });
   }, [id]);
 
+  // Handle mobile body class for scroll prevention
+  useEffect(() => {
+    // Add class to body on mount
+    document.body.classList.add('editor-page');
+
+    // Remove class on unmount
+    return () => {
+      document.body.classList.remove('editor-page');
+    };
+  }, []);
+
   // Save project function
   const saveProject = useCallback(() => {
     const trimmedCode = code?.toString().trim(); // Ensure code is a string and trimmed
@@ -158,13 +169,13 @@ const Editor = () => {
   return (
     <>
       {/* Background */}
-      <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-900">
+      <div className="h-screen bg-gradient-to-br from-gray-900 via-black to-gray-900 overflow-hidden">
         <ParticlesBackground />
         <Navbar />
 
         {/* Main Editor Container */}
-        <div className="pt-16 sm:pt-20 page-transition">
-          <div className="flex flex-col lg:flex-row h-[calc(100vh-64px)] sm:h-[calc(100vh-80px)] gap-2 sm:gap-4 p-2 sm:p-4">
+        <div className="pt-16 sm:pt-20 h-full">
+          <div className="flex flex-col lg:flex-row h-[calc(100%-64px)] sm:h-[calc(100%-80px)] gap-2 sm:gap-4 p-2 sm:p-4">
 
             {/* Code Editor Section */}
             <div className="w-full lg:w-1/2 h-1/2 lg:h-full backdrop-blur-md bg-white/5 border border-white/10 rounded-xl overflow-hidden">
@@ -203,10 +214,18 @@ const Editor = () => {
                     scrollBeyondLastLine: false,
                     wordWrap: 'on',
                     automaticLayout: true,
+                    // Hide scrollbars
+                    scrollbar: {
+                      vertical: 'hidden',
+                      horizontal: 'hidden',
+                      verticalScrollbarSize: 0,
+                      horizontalScrollbarSize: 0,
+                      alwaysConsumeMouseWheel: false
+                    },
                     // Fix cursor positioning issues
                     cursorBlinking: 'smooth',
                     cursorSmoothCaretAnimation: 'on',
-                    smoothScrolling: true,
+                    smoothScrolling: false,
                     // Improve performance and responsiveness
                     quickSuggestions: true,
                     suggestOnTriggerCharacters: true,
@@ -225,7 +244,10 @@ const Editor = () => {
                     // Performance optimizations
                     disableLayerHinting: false,
                     disableMonospaceOptimizations: false,
-                    hideCursorInOverviewRuler: false
+                    hideCursorInOverviewRuler: false,
+                    // Mobile optimizations
+                    mouseWheelZoom: false,
+                    contextmenu: false
                   }}
                 />
               </div>
@@ -244,11 +266,11 @@ const Editor = () => {
                   <span className="sm:hidden">Run</span>
                 </button>
               </div>
-              <div className="h-[calc(100%-48px)] sm:h-[calc(100%-60px)] p-2 sm:p-4">
+              <div className="h-[calc(100%-48px)] sm:h-[calc(100%-60px)] p-2 sm:p-4 overflow-hidden">
                 <pre
-                  className={`w-full h-full overflow-auto text-xs sm:text-sm font-mono ${
+                  className={`w-full h-full overflow-y-auto overflow-x-hidden text-xs sm:text-sm font-mono ${
                     error ? "text-red-400" : "text-white/90"
-                  } whitespace-pre-wrap`}
+                  } whitespace-pre-wrap scrollbar-thin scrollbar-thumb-white/20 scrollbar-track-transparent`}
                 >
                   {output || "Click 'Run' to see the output..."}
                 </pre>

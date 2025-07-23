@@ -38,12 +38,18 @@ const Home = () => {
     }),
     menu: (provided) => ({
       ...provided,
-      backgroundColor: 'rgba(0, 0, 0, 0.8)',
+      backgroundColor: 'rgba(0, 0, 0, 0.9)',
       backdropFilter: 'blur(10px)',
       border: '1px solid rgba(255, 255, 255, 0.2)',
       borderRadius: '12px',
       color: '#fff',
-      width: "100%"
+      zIndex: 9999,
+      position: 'absolute',
+      width: '100%'
+    }),
+    menuPortal: (provided) => ({
+      ...provided,
+      zIndex: 9999
     }),
     option: (provided, state) => ({
       ...provided,
@@ -301,6 +307,9 @@ const Home = () => {
                   styles={customStyles}
                   onChange={handleLanguageChange}
                   value={selectedLanguage}
+                  menuPortalTarget={document.body}
+                  menuPosition="fixed"
+                  menuPlacement="auto"
                 />
               </div>
 

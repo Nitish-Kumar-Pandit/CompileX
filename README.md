@@ -30,8 +30,9 @@ A modern, full-stack web application for online code editing and compilation wit
 ## 📋 Prerequisites
 
 - Node.js 18+
-- MongoDB (local or cloud)
-- Docker & Docker Compose (for containerized deployment)
+- MongoDB Atlas account (free tier available)
+- GitHub account
+- Render.com account (free tier available)
 
 ## 🔧 Development Setup
 
@@ -63,45 +64,32 @@ npm run dev
 - Install MongoDB locally or use MongoDB Atlas
 - Update the MONGODB_URI in backend/.env
 
-## 🚀 Production Deployment
+## 🚀 Production Deployment (Render.com)
 
-### Option 1: Docker Compose (Recommended)
+### Quick Deploy to Render
 
-1. **Prepare environment files:**
-```bash
-cp backend/.env.production backend/.env
-cp frontend/.env.production frontend/.env
-```
+1. **Fork this repository** to your GitHub account
 
-2. **Update environment variables:**
-   - Backend: Update JWT_SECRET, MONGODB_URI, CORS_ORIGIN
-   - Frontend: Update VITE_API_BASE_URL
+2. **Set up MongoDB Atlas:**
+   - Create free cluster at [MongoDB Atlas](https://cloud.mongodb.com/)
+   - Get connection string
+   - Whitelist all IPs (0.0.0.0/0)
 
-3. **Deploy with Docker:**
-```bash
-chmod +x deploy.sh
-./deploy.sh
-```
+3. **Deploy Backend (Web Service):**
+   - Connect GitHub repo to Render
+   - Root directory: `backend`
+   - Build command: `npm install`
+   - Start command: `npm start`
 
-### Option 2: Manual Deployment
+4. **Deploy Frontend (Static Site):**
+   - Connect same GitHub repo to Render
+   - Root directory: `frontend`
+   - Build command: `npm install && npm run build`
+   - Publish directory: `dist`
 
-1. **Build Frontend:**
-```bash
-cd frontend
-npm install
-npm run build
-```
+5. **Configure Environment Variables** (see below)
 
-2. **Deploy Backend:**
-```bash
-cd backend
-npm install --production
-npm start
-```
-
-3. **Serve Frontend:**
-   - Use Nginx, Apache, or any static file server
-   - Point to the `frontend/dist` directory
+For detailed instructions, see [DEPLOYMENT_GUIDE.md](./DEPLOYMENT_GUIDE.md)
 
 ## 🔒 Security Considerations
 
@@ -116,36 +104,24 @@ npm start
 
 ## 📊 Environment Variables
 
-### Backend (.env)
+### Backend (Render Web Service)
+
 ```env
-PORT=3000
 NODE_ENV=production
-MONGODB_URI=mongodb://localhost:27017/compilex
-JWT_SECRET=your-super-secure-secret
-CORS_ORIGIN=https://your-domain.com
+PORT=10000
+MONGODB_URI=mongodb+srv://user:pass@cluster.mongodb.net/compilex?retryWrites=true&w=majority
+JWT_SECRET=your-super-secure-secret-32-chars-min
+CORS_ORIGIN=https://your-frontend.onrender.com
+PISTON_API_URL=https://emkc.org/api/v2/piston
 ```
 
-### Frontend (.env)
+### Frontend (Render Static Site)
+
 ```env
-VITE_API_BASE_URL=https://your-api-domain.com
+VITE_API_BASE_URL=https://your-backend.onrender.com
 VITE_APP_NAME=CompileX
 VITE_APP_VERSION=1.0.0
-```
-
-## 🐳 Docker Commands
-
-```bash
-# Build and start all services
-docker-compose up -d
-
-# View logs
-docker-compose logs -f
-
-# Stop all services
-docker-compose down
-
-# Rebuild services
-docker-compose build --no-cache
+VITE_DEV_MODE=false
 ```
 
 ## 📝 API Endpoints

@@ -15,6 +15,7 @@ const Editor = () => {
 
   const [data, setData] = useState(null);
   const debounceRef = useRef(null);
+  const editorRef = useRef(null);
 
   // Fetch project data on mount
   useEffect(() => {
@@ -118,6 +119,34 @@ const Editor = () => {
     }, 500);
   }, []);
 
+  // Handle editor mount
+  const handleEditorDidMount = useCallback((editor, monaco) => {
+    editorRef.current = editor;
+
+    // Force focus on mobile devices
+    if (window.innerWidth <= 768) {
+      setTimeout(() => {
+        editor.focus();
+      }, 100);
+    }
+  }, []);
+
+  // Handle editor container click for mobile focus
+  const handleEditorContainerClick = useCallback(() => {
+    if (editorRef.current && window.innerWidth <= 768) {
+      editorRef.current.focus();
+    }
+  }, []);
+
+  // Handle touch events for mobile
+  const handleEditorTouch = useCallback(() => {
+    if (editorRef.current && window.innerWidth <= 768) {
+      setTimeout(() => {
+        editorRef.current.focus();
+      }, 50);
+    }
+  }, []);
+
   const runProject = () => {
     // Generate the correct file extension based on language
     const getFileExtension = (lang) => {
@@ -200,9 +229,14 @@ const Editor = () => {
                   <span className="sm:hidden">Save</span>
                 </button>
               </div>
-              <div className="h-[calc(100%-48px)] sm:h-[calc(100%-60px)]">
+              <div
+                className="h-[calc(100%-48px)] sm:h-[calc(100%-60px)]"
+                onClick={handleEditorContainerClick}
+                onTouchStart={handleEditorTouch}
+              >
                 <Editor2
                   onChange={handleCodeChange}
+                  onMount={handleEditorDidMount}
                   theme="vs-dark"
                   height="100%"
                   width="100%"
@@ -222,32 +256,39 @@ const Editor = () => {
                       horizontalScrollbarSize: 0,
                       alwaysConsumeMouseWheel: false
                     },
-                    // Fix cursor positioning issues
-                    cursorBlinking: 'smooth',
-                    cursorSmoothCaretAnimation: 'on',
+                    // Fix cursor positioning and visibility issues
+                    cursorBlinking: 'blink',
+                    cursorSmoothCaretAnimation: 'off',
                     smoothScrolling: false,
+                    cursorStyle: 'line',
+                    cursorWidth: 2,
+                    // Mobile cursor fixes
+                    showUnused: false,
+                    occurrencesHighlight: false,
+                    selectionHighlight: false,
                     // Improve performance and responsiveness
-                    quickSuggestions: true,
-                    suggestOnTriggerCharacters: true,
-                    acceptSuggestionOnEnter: 'on',
-                    tabCompletion: 'on',
+                    quickSuggestions: false,
+                    suggestOnTriggerCharacters: false,
+                    acceptSuggestionOnEnter: 'off',
+                    tabCompletion: 'off',
                     // Fix rendering issues
-                    renderWhitespace: 'selection',
+                    renderWhitespace: 'none',
                     renderControlCharacters: false,
                     fontLigatures: false,
                     // Improve cursor tracking
                     selectOnLineNumbers: true,
                     roundedSelection: false,
                     readOnly: false,
-                    cursorStyle: 'line',
-                    cursorWidth: 2,
                     // Performance optimizations
-                    disableLayerHinting: false,
-                    disableMonospaceOptimizations: false,
-                    hideCursorInOverviewRuler: false,
+                    disableLayerHinting: true,
+                    disableMonospaceOptimizations: true,
+                    hideCursorInOverviewRuler: true,
                     // Mobile optimizations
                     mouseWheelZoom: false,
-                    contextmenu: false
+                    contextmenu: false,
+                    // Force cursor visibility
+                    renderLineHighlight: 'line',
+                    renderLineHighlightOnlyWhenFocus: false
                   }}
                 />
               </div>

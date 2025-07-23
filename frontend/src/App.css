@@ -27,6 +27,23 @@ html, body {
   }
 }
 
+@keyframes blink {
+  0%, 50% {
+    opacity: 1;
+  }
+  51%, 100% {
+    opacity: 0;
+  }
+}
+
+/* Global cursor blink animation */
+@keyframes cursor-blink {
+  0% { opacity: 1; }
+  50% { opacity: 1; }
+  51% { opacity: 0; }
+  100% { opacity: 0; }
+}
+
 /* Smooth scroll behavior */
 html {
   scroll-behavior: smooth;
@@ -77,10 +94,50 @@ input:focus, select:focus, button:focus {
 /* Monaco Editor cursor fix */
 .monaco-editor .cursor {
   animation: none !important;
+  opacity: 1 !important;
+  visibility: visible !important;
 }
 
 .monaco-editor .cursors-layer .cursor {
   animation: none !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+/* Force cursor visibility on mobile */
+@media (max-width: 768px) {
+  .monaco-editor .cursor {
+    background-color: #ffffff !important;
+    border-left: 2px solid #ffffff !important;
+    width: 2px !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    display: block !important;
+    animation: cursor-blink 1s infinite !important;
+    box-shadow: 0 0 1px #ffffff !important;
+  }
+
+  .monaco-editor .cursors-layer .cursor {
+    background-color: #ffffff !important;
+    border-left: 2px solid #ffffff !important;
+    width: 2px !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    display: block !important;
+    animation: cursor-blink 1s infinite !important;
+    box-shadow: 0 0 1px #ffffff !important;
+  }
+
+  /* Ensure cursor layer is visible */
+  .monaco-editor .cursors-layer {
+    z-index: 1000 !important;
+    pointer-events: none !important;
+  }
+
+  /* Force line highlight for better cursor visibility */
+  .monaco-editor .current-line {
+    background-color: rgba(255, 255, 255, 0.05) !important;
+  }
 }
 
 /* Ensure proper text rendering in Monaco Editor */
@@ -178,6 +235,26 @@ input:focus, select:focus, button:focus {
 
 .monaco-editor .overflow-guard {
   overflow: hidden !important;
+}
+
+/* Additional cursor fixes for all devices */
+.monaco-editor .view-line {
+  position: relative;
+}
+
+.monaco-editor .cursor {
+  position: absolute !important;
+  z-index: 1000 !important;
+  pointer-events: none !important;
+}
+
+/* Ensure cursor is always on top */
+.monaco-editor .cursors-layer {
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  z-index: 1000 !important;
+  pointer-events: none !important;
 }
 
 /* Custom thin scrollbar for output */

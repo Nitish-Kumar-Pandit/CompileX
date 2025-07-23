@@ -4,12 +4,10 @@ const connectDB = async () => {
   try {
     const mongoURI = process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/compileX";
 
-    await mongoose.connect(mongoURI, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
+    // Remove deprecated options - they're not needed in modern MongoDB driver
+    await mongoose.connect(mongoURI);
 
-    console.log(`MongoDB connected successfully to: ${mongoURI}`);
+    console.log(`MongoDB connected successfully to: ${mongoURI.replace(/\/\/.*:.*@/, '//***:***@')}`);
   } catch (error) {
     console.error("MongoDB connection failed:", error);
 

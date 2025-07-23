@@ -1,19 +1,22 @@
 # 🚀 CompileX Deployment Guide for Render
 
 ## 📋 Overview
-This guide will help you deploy both the frontend and backend of CompileX to Render.com as separate services.
+This guide will help you deploy both the frontend and backend of CompileX to Render.com as separate services. CompileX is now optimized for cloud deployment without Docker.
 
 ## 🔧 Prerequisites
 1. GitHub account with your CompileX repository
 2. Render.com account (free tier available)
 3. MongoDB Atlas account (for database hosting)
+4. Node.js 18+ (for local development)
 
 ## 📁 Project Structure
+
 ```
 CompileX/
 ├── backend/          # Node.js/Express API
 ├── frontend/         # React/Vite application
-└── DEPLOYMENT_GUIDE.md
+├── DEPLOYMENT_GUIDE.md
+└── README.md
 ```
 
 ## 🗄️ Database Setup (MongoDB Atlas)

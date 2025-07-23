@@ -2,7 +2,7 @@
 const mongoose = require('mongoose');
 
 // Replace with your actual connection string
-const MONGODB_URI = process.env.MONGODB_URI || 'your-connection-string-here';
+const MONGODB_URI = process.env.MONGODB_URI || 'mongodb+srv://nitish:YOUR_ACTUAL_PASSWORD@compilex.jhtzhys.mongodb.net/compilex?retryWrites=true&w=majority&appName=CompileX';
 
 console.log('Testing MongoDB connection...');
 console.log('Connection string (masked):', MONGODB_URI.replace(/\/\/.*:.*@/, '//***:***@'));

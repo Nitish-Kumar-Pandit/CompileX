@@ -1,0 +1,22 @@
+# Render Blueprint for CompileX Backend
+services:
+  - type: web
+    name: compilex-backend
+    env: node
+    plan: free
+    rootDir: backend
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: MONGODB_URI
+        sync: false
+      - key: JWT_SECRET
+        sync: false
+      - key: CORS_ORIGIN
+        sync: false
+      - key: PISTON_API_URL
+        value: https://emkc.org/api/v2/piston

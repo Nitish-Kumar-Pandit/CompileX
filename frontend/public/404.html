@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CompileX - Redirecting...</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: #000;
+            color: #fff;
+            font-family: 'Inter', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .loader {
+            text-align: center;
+        }
+        .spinner {
+            border: 2px solid #333;
+            border-top: 2px solid #fff;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="loader">
+        <div class="spinner"></div>
+        <p>Redirecting to CompileX...</p>
+    </div>
+    
+    <script>
+        // Redirect to index.html with the current path preserved
+        const currentPath = window.location.pathname + window.location.search + window.location.hash;
+        
+        // Store the intended path in sessionStorage
+        if (currentPath !== '/') {
+            sessionStorage.setItem('redirectPath', currentPath);
+        }
+        
+        // Redirect to index.html
+        window.location.replace('/index.html');
+    </script>
+</body>
+</html>

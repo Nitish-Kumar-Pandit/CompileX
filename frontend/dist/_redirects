@@ -1,5 +1,0 @@
-# Redirect all routes to index.html for client-side routing
-# This file is required for Render.com static site deployment
-# to handle React Router client-side routing properly
-
-/*    /index.html   200

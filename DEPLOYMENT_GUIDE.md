@@ -89,6 +89,15 @@ Add these environment variables in Render:
 2. Wait for deployment to complete
 3. Note your frontend URL: `https://your-frontend-name.onrender.com`
 
+### Step 4: Verify Client-Side Routing
+After deployment, test these URLs to ensure routing works:
+- ✅ `https://your-frontend-name.onrender.com/` (Home page)
+- ✅ `https://your-frontend-name.onrender.com/about` (About page)
+- ✅ `https://your-frontend-name.onrender.com/editor/123` (Editor page)
+- ✅ Refresh any page - should work without 404 errors
+
+**Note**: The `_redirects` file in `public/` folder handles client-side routing for React Router.
+
 ## 🔄 Update CORS Configuration
 
 ### Step 1: Update Backend CORS

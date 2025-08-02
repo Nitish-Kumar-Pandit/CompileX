@@ -19,29 +19,29 @@ const App = () => {
 };
 
 const RouteHandler = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem("isLoggedIn"));
+  const [isLoggedIn, setIsLoggedIn] = useState(() => {
+    // Initialize with current localStorage value
+    return localStorage.getItem("isLoggedIn") === "true";
+  });
 
   // Listen for storage changes to update login state
   useEffect(() => {
     const handleStorageChange = () => {
-      const newLoginState = localStorage.getItem("isLoggedIn");
-      console.log("Checking login state:", newLoginState); // Debug log
+      const newLoginState = localStorage.getItem("isLoggedIn") === "true";
       setIsLoggedIn(newLoginState);
     };
 
     // Listen for storage events (from other tabs)
     window.addEventListener('storage', handleStorageChange);
 
-    // Also check periodically for same-tab changes
-    const interval = setInterval(handleStorageChange, 50); // Check more frequently
+    // Custom event for same-tab changes (more efficient than polling)
+    window.addEventListener('loginStateChange', handleStorageChange);
 
     return () => {
       window.removeEventListener('storage', handleStorageChange);
-      clearInterval(interval);
+      window.removeEventListener('loginStateChange', handleStorageChange);
     };
   }, []);
-
-  console.log("RouteHandler - isLoggedIn:", isLoggedIn); // Debug log
 
   return (
     <>

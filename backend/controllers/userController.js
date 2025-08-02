@@ -37,9 +37,16 @@ exports.signUp = async (req, res) => {
       })
     }
 
-    bcrypt.genSalt(12, function (err, salt) {
-      bcrypt.hash(pwd, salt, async function (err, hash) {
+    // Use bcrypt.hash directly with 10 rounds for better performance
+    bcrypt.hash(pwd, 10, async function (err, hash) {
+      if (err) {
+        return res.status(500).json({
+          success: false,
+          msg: "Error hashing password"
+        });
+      }
 
+      try {
         let user = await userModel.create({
           email: email,
           password: hash,
@@ -54,8 +61,12 @@ exports.signUp = async (req, res) => {
           msg: "User created successfully",
           token
         });
-
-      });
+      } catch (error) {
+        return res.status(500).json({
+          success: false,
+          msg: "Error creating user"
+        });
+      }
     });
 
   } catch (error) {

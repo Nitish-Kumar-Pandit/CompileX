@@ -10,11 +10,15 @@ const SignUp = () => {
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [pwd, setPwd] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const navigate = useNavigate();
 
   const submitForm = (e) => {
     e.preventDefault();
+
+    if (isLoading) return; // Prevent multiple submissions
+    setIsLoading(true);
     fetch(api_base_url + "/signUp",{
       mode: "cors",
       method: "POST",
@@ -35,13 +39,13 @@ const SignUp = () => {
         // Set user as logged in and redirect to home
         if (data.token) {
           localStorage.setItem("token", data.token);
-          localStorage.setItem("isLoggedIn", true);
-          console.log("Token stored, navigating to home..."); // Debug log
+          localStorage.setItem("isLoggedIn", "true");
 
-          // Force a small delay to ensure localStorage is set before navigation
-          setTimeout(() => {
-            navigate("/");
-          }, 100);
+          // Trigger custom event to update login state immediately
+          window.dispatchEvent(new Event('loginStateChange'));
+
+          // Navigate immediately - no delay needed
+          navigate("/");
         } else {
           console.error("No token received from server");
           toast.error("Login failed - no token received");
@@ -54,6 +58,8 @@ const SignUp = () => {
     }).catch(error => {
       console.error("Signup error:", error); // Debug log
       toast.error("Signup failed. Please try again.");
+    }).finally(() => {
+      setIsLoading(false); // Reset loading state
     })
   };
 
@@ -124,9 +130,21 @@ const SignUp = () => {
             {/* Sign Up Button */}
             <button
               type="submit"
-              className="w-full px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white rounded-lg transition-all duration-200 font-medium shadow-lg hover:shadow-xl"
+              disabled={isLoading}
+              className={`w-full px-6 py-3 text-white rounded-lg transition-all duration-200 font-medium shadow-lg hover:shadow-xl ${
+                isLoading
+                  ? 'bg-gray-500 cursor-not-allowed'
+                  : 'bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700'
+              }`}
             >
-              Create Account
+              {isLoading ? (
+                <div className="flex items-center justify-center">
+                  <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></div>
+                  Creating Account...
+                </div>
+              ) : (
+                'Create Account'
+              )}
             </button>
           </form>
         </div>

@@ -1,0 +1,13 @@
+# Handle client-side routing for React Router on Render.com
+# All routes should serve index.html and let React Router handle routing
+
+# API routes (if any) - exclude from SPA routing
+/api/*  /api/:splat  200
+
+# Static assets - serve as-is
+/assets/*  /assets/:splat  200
+/favicon.svg  /favicon.svg  200
+/vite.svg  /vite.svg  200
+
+# All other routes - serve index.html for React Router
+/*  /index.html  200

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CORS Test - CompileX</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; background: #1a1a1a; color: white; }
+        .test-result { margin: 10px 0; padding: 10px; border-radius: 5px; }
+        .success { background: #2d5a2d; }
+        .error { background: #5a2d2d; }
+        button { padding: 10px 20px; margin: 5px; background: #4CAF50; color: white; border: none; border-radius: 5px; cursor: pointer; }
+        button:hover { background: #45a049; }
+        pre { background: #333; padding: 10px; border-radius: 5px; overflow-x: auto; }
+    </style>
+</head>
+<body>
+    <h1>🔧 CompileX CORS Test</h1>
+    <p>Test CORS configuration for CompileX backend</p>
+    
+    <button onclick="testCORS()">Test CORS Connection</button>
+    <button onclick="testSignup()">Test Signup Endpoint</button>
+    <button onclick="clearResults()">Clear Results</button>
+    
+    <div id="results"></div>
+
+    <script>
+        const API_BASE = 'https://compilex-zsvq.onrender.com';
+        
+        function addResult(message, isSuccess = true) {
+            const results = document.getElementById('results');
+            const div = document.createElement('div');
+            div.className = `test-result ${isSuccess ? 'success' : 'error'}`;
+            div.innerHTML = `<strong>${new Date().toLocaleTimeString()}</strong>: ${message}`;
+            results.appendChild(div);
+        }
+        
+        async function testCORS() {
+            addResult('🧪 Testing CORS connection...');
+            
+            try {
+                const response = await fetch(`${API_BASE}/test-cors`, {
+                    method: 'GET',
+                    mode: 'cors'
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    addResult(`✅ CORS test successful!<br><pre>${JSON.stringify(data, null, 2)}</pre>`);
+                } else {
+                    addResult(`❌ CORS test failed: ${response.status} ${response.statusText}`, false);
+                }
+            } catch (error) {
+                addResult(`❌ CORS test error: ${error.message}`, false);
+            }
+        }
+        
+        async function testSignup() {
+            addResult('🧪 Testing signup endpoint...');
+            
+            try {
+                const response = await fetch(`${API_BASE}/signUp`, {
+                    method: 'POST',
+                    mode: 'cors',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        fullName: 'Test User',
+                        email: 'test@example.com',
+                        pwd: 'testpassword'
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    addResult(`✅ Signup endpoint accessible!<br><pre>${JSON.stringify(data, null, 2)}</pre>`);
+                } else {
+                    addResult(`⚠️ Signup endpoint responded: ${response.status}<br><pre>${JSON.stringify(data, null, 2)}</pre>`);
+                }
+            } catch (error) {
+                addResult(`❌ Signup test error: ${error.message}`, false);
+            }
+        }
+        
+        function clearResults() {
+            document.getElementById('results').innerHTML = '';
+        }
+        
+        // Auto-test on load
+        window.onload = () => {
+            addResult('🚀 CORS Test Tool loaded. Click buttons to test endpoints.');
+        };
+    </script>
+</body>
+</html>

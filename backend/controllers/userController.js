@@ -79,41 +79,41 @@ exports.signUp = async (req, res) => {
 
 exports.login = async (req, res) => {
   try {
+    const { email, pwd } = req.body;
 
-    let { email, pwd } = req.body;
-
-    let user = await userModel.findOne({ email: email });
+    // Find user by email
+    const user = await userModel.findOne({ email });
     if (!user) {
       return res.status(404).json({
         success: false,
-        msg: "User not found"
+        msg: "User not found",
       });
     }
 
-    bcrypt.compare(pwd, user.password, function (err, result) {
-      if (result) {
+    // Use compareSync for faster, blocking comparison
+    const isMatch = await bcrypt.compare(pwd, user.password);
 
-        let token = jwt.sign({ userId: user._id }, secret)
+    if (isMatch) {
+      // Generate JWT token
+      const token = jwt.sign({ userId: user._id }, secret, { expiresIn: '1h' }); // Add expiration
 
-        return res.status(200).json({
-          success: true,
-          msg: "User logged in successfully",
-          token
-        });
-      }
-      else {
-        return res.status(401).json({
-          success: false,
-          msg: "Invalid password"
-        });
-      }
-    })
-
+      return res.status(200).json({
+        success: true,
+        msg: "User logged in successfully",
+        token,
+      });
+    } else {
+      return res.status(401).json({
+        success: false,
+        msg: "Invalid credentials",
+      });
+    }
   } catch (error) {
+    console.error("Login error:", error); // Log the actual error
     return res.status(500).json({
       success: false,
-      msg: error.message
-    })
+      msg: "An internal server error occurred. Please try again later.",
+    });
   }
 };
 
